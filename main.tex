@@ -19,6 +19,7 @@
 \usepackage{subfigure}
 \usepackage{todonotes}
 \usepackage{listings}
+\usepackage{float}
 \usepackage[colorlinks=true, linkcolor=black,citecolor=black,urlcolor=blue]{hyperref}
 \bibliographystyle{IEEEtran}
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
@@ -35,6 +36,7 @@
 \parskip = 0.2in
 \parindent = 0.0in
 
+\newcommand{\keyword}[1]{\textit{#1}}
 
 \begin{document}
 \thispagestyle{empty}
@@ -117,13 +119,13 @@ Aliquam aliquet, est a ullamcorper condimentum, tellus nulla fringilla elit, a i
 \section{Background}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Methods}
-
+\section{Methods}\label{sec:methods}
+\input{methods}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Results}
-\include{results}
+\section{Results}\label{sec:results}
+\input{results}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

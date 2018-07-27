@@ -1,0 +1,28 @@
+\subsection{Solving the risk sensitive POMDP}
+
+\normalsize
+Marecki \cite{marecki} showed that RSPOMDPs can be solved for arbitrary utility functions using \keyword{reverse value iteration} in Belief Wealth Space.
+For this the original state space must be augmented two times:
+
+\begin{figure}[H]
+\begin {center}
+\begin {tikzpicture}[-latex ,auto ,node distance =4cm and 2cm ,on grid,
+semithick , state/.style ={ circle ,fill=black!20, minimum width =3 cm}]
+\node[state] (A) [align=center] {Observation\\Time\\Space};
+\node[state] (B) [right of=A,align=center] {Belief\\Time\\Space};
+\node[state] (C) [right of=B,align=center] {Belief\\Wealth\\Space};
+
+\path (A) edge [line width=1mm, align=center] node[left] {} (B);
+\path (B) edge [line width=1mm,align=center] node[below =0.25 cm] {} (C);
+\end{tikzpicture}
+\end{center}
+\end{figure}
+
+First augmentation is done by describing the probability of being in the good state with a function $\phi(b,o)$ ~\autoref{m:belief-update}:
+
+\begin{align}
+    b' = \phi(b,o) := ()
+\end{align}
+
+This augmentation transforms the POMDP into a MDP.
+Second augmentation ...
