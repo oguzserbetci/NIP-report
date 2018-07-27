@@ -1,14 +1,14 @@
-% \subsection{Value functions in belief wealth space}
-
-As described in~\autoref{sec:methods} augmented state space encodes the wealth and the belief of the agent. Note that time can be derived from wealth, in our setting exactly by $\text{time} = \text{wealth} / \text{observation cost}$.
+\subsection{Value functions in belief wealth space}\label{ssec:val-func}
 
 First, we look at value functions found by using different utility functions in~\autoref{fig:val-func}.
-Value functions found by exponential utility show that the induced behaviour is independent of time and risk is only modeled by the belief threshold the agent decides to sell at. This threshold is set by the $\lambda$ parameter, which is displayed on above the plot.
+As described in~\autoref{sec:methods} augmented state space encodes the wealth and the belief of the agent. Note that time can be derived from wealth, in our setting exactly by $\text{time} = \frac{\text{wealth}}{\text{observation\ cost}}$.
+
+Value functions found by exponential utility show that the induced behaviour is independent of time and risk is only modeled by the belief threshold the agent decides to sell at. This threshold is set by the $\lambda$ parameter, which is displayed above the plot.
 
 On the other hand, the sinh utility function is able to model time dependent behaviour, e.g. selling at a fixed time step. We have parametrized sinh by the scaling and shifting of its input:
 
 \begin{align*}
-    U_\text{sinh}(v) := \frac{e^v' - e^{-v'}}{2} \text{, where } v' = \text{scale}\cdot(v+\text{shift})
+    U_\text{sinh}(v) := \frac{e^{v'} - e^{-v'}}{2} \text{, where\ } v' = \text{scale}\cdot(v+\text{shift})
 \end{align*}
 
 Scale and shift parameters are displayed above each plot.
@@ -17,49 +17,52 @@ Lastly, we present the dynamic utility function where $\lambda_i$ is selected fr
 
 % TODO: use sinh with better parametrization
 
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
-    \includegraphics[width=0.98\linewidth]{img/exp_policy.pdf}\\
+    \includegraphics[width=0.99\linewidth]{img/exp_policy.pdf}\\
     \vspace{1cm}
-    \includegraphics[width=0.98\linewidth]{img/sinh_policy.pdf}\\
+    \includegraphics[width=0.99\linewidth]{img/sinh_policy.pdf}\\
     \vspace{1cm}
-    \includegraphics[width=0.98\linewidth]{img/dyn_policy.pdf}
+    \includegraphics[width=0.99\linewidth]{img/dyn_policy.pdf}
     \caption{Value functions exhibiting different risk-behaviors; from top left: risk neutral agent (utility function is the identity function), risk-seeking agent with exponential utility function, two fixed time agents with different time thresholds, two agents with dynamic exponential utility function.}\label{fig:val-func}
 \end{figure}
 
+\subsection{From human behavior to utility functions}\label{ssec:human-behavior}
+
+In~\autoref{ssec:val-func}, we have presented how different utility functions result in different policies.
+However, our main goal is to derive a utility function and the corresponding risk parameters from behavioral data.
+In literature, this is called \keyword{inverse reinforcement learning} \cite{TODO}.
+
+Inverse reinforcement learning is challenging, thus, we only try a naive approach, which can be summarized in three steps: 1) observe behaviour, 2) estimate policy, and 3) derive utility functions and risk parameters using a grid-search.
+This approach is plotted in~\autoref{fig:svm_vs_value}, and explained in following. 
+First, we get behavioral data for a subject from the expert-setting of the experiment.
+For each time step (i.e. year) of each trial we have a data point with the action subject took, the belief shown to the user and the year. These are plotted in~\autoref{fig:svm_vs_value} with blue for wait action, and orange for sell action.
+
+Second, we estimate the policy using a SVM \cite{TODO} with cross-validation. SVM tries to fit a decision boundary, which minimizes the wait actions above and sell actions below this boundary.
 
 
-\subsection{From human behavior to utility functions}
+The last step is to perform a grid search over utility functions and their parameters.
+Each utility function and its parameters results in a value function from which a policy can be derived.
+The goal of the grid search is to find the closest policy that is closest to the SVM decision boundary.
 
-
-\normalsize
-\textbf{The original problem:}
-\begin{itemize}
-\item[①] Choose utility function with risk parameter.
-\item[②] Perform value iteration.
-\item[③] Derive policy.
-\end{itemize}
-
-\textbf{The inverse problem:}
-\begin{itemize}
-\item[①] Observe behavior.
-\item[②] Estimate policy.
-\item[③] Derive utility function and risk parameters.
-\end{itemize}
-
-The original problem is easy to solve, unfortunately for the inverse problem no solution is known. 
-
-$\rightarrow$ Perform grid-search and choose optimal utility function.
-
-\begin{figure}
+\begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\linewidth]{img/fit}
-    \caption{Examples from three human behaviors distinctly observed and replicated with RL agents. Behaviours by row: 1) Constant belief threshold, modelled by exponential utility, 2) Fixed time threshold, modelled by sinh utility, 3) Mixed strategy, modelled by dynamic exponential utility. Left column shows empirical optimal split of data using cross validation and linear kernel support vector machines, right column shows optimal policy found via gridsearch.}
+    \includegraphics[width=0.99\linewidth]{img/fit}
+    \caption{Examples from three human behaviors distinctly observed, and reproduced with RL agents. Behaviours by row: 1) Constant belief threshold, modelled by exponential utility, 2) Fixed time threshold, modelled by sinh utility, 3) Mixed strategy, modelled by dynamic exponential utility. Left column shows empirical optimal split of data using cross validation and linear kernel support vector machines, right column shows optimal policy found via grid-search.}
     \label{fig:svm_vs_value}
 \end{figure}
 
-\begin{figure}
+\subsection{Analysis of agents}
+After reproducing the human behavior with agents we can compare their performance, which is presented in~\autoref{fig:perf}.
+First plot shows the average accumulated reward of each agent, and the second plot shows the ratio of sells in good state.
+We observe couple of interesting things.
+
+First, the risk-averse agent has a lower variance both on average reward, and ratio of selling in good state. However it has similar number of outliers in average reward to risk-neutral agent, which can be easily explained by the high selling threshold that results in long waiting time for the risk-averse agent.
+
+Second, ...
+
+\begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\linewidth]{img/performance.pdf}
-    \caption{Average reward and ratio of selling in the good state.}
+    \includegraphics[width=0.99\linewidth]{img/performance.pdf}
+    \caption{Average reward and ratio of selling in the good state.}\label{fig:perf}
 \end{figure}
