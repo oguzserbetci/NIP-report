@@ -1,17 +1,22 @@
 \subsection{Value functions in belief wealth space}\label{ssec:val-func}
 
 First, we look at value functions found by using different utility functions in~\autoref{fig:val-func}.
-As described in~\autoref{sec:methods} augmented state space encodes the wealth and the belief of the agent. Note that time can be derived from wealth, in our setting exactly by $\text{time} = \frac{\text{wealth}}{\text{observation\ cost}}$.
+As described in~\autoref{sec:methods} augmented state space encodes the wealth and the belief of the agent. 
+Additionally, in our case, time can be derived from wealth exactly by $\text{time} = \frac{\text{wealth}}{\text{observation\ cost}}$.
 
-Value functions found by exponential utility show that the induced behaviour is independent of time and risk is only modeled by the belief threshold the agent decides to sell at. This threshold is set by the $\lambda$ parameter, which is displayed above the plot.
+In the first row, value functions found by the risk-neutral utility (identity function) and an exponential utility show that the induced behaviour is independent of time and risk is only modeled by the belief threshold the agent decides to sell at.
+% TODO do we need a policy plot to make this clear?
+Exponential utility sets this threshold with the $\lambda$ parameter, which is displayed above the plot.
+Positive $\lambda$ models risk-seeking behavior, which results in selling with less belief.
 
-On the other hand, the sinh utility function is able to model time dependent behaviour, e.g. selling at a fixed time step. We have parametrized sinh by the scaling and shifting of its input:
+In the second row, we see that the sinh utility function is able to model time dependent behaviour, e.g. selling at a fixed time step. We have parametrized sinh by the scaling and shifting of its input:
 
 \begin{align*}
-    U_\text{sinh}(v) := \frac{e^{v'} - e^{-v'}}{2} \text{, where\ } v' = \text{scale}\cdot(v+\text{shift})
+    U_\text{sinh}(v) := e^{v_1} - e^{-v_2} \text{, where\ } v_i = \text{scale_i}\cdot(v+\text{shift_i})
 \end{align*}
 
-Scale and shift parameters are displayed above each plot.
+The first is 
+
 
 Lastly, we present the dynamic utility function where $\lambda_i$ is selected from a logarithmically spaced sequence. The sequence range is displayed above each plot.
 
