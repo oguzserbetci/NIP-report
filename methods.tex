@@ -25,7 +25,7 @@ semithick , state/.style ={ circle ,fill=black!20}]
 \path (B) edge [line width=1mm,align=center] node[below =0.25 cm] {} (C);
 \end{tikzpicture}
 \end{center}
-\caption{Two augmentations of the original state space are necessary to }\label{fig:augmenation}
+\caption{Two augmentations of the original state space are necessary to solve the POMDP for different utility functions.}\label{fig:augmenation}
 \end{figure}
 
 The first augmentation transforms the given observation-time-space into a belief-time-space. Knowledge of the state-transition probability $\alpha$ and the observation distributions are combined using bayesian inference. Iteratively applied, the resulting \textit{belief} describes at any time the probability of being in the good state (see ~\autoref{equ:belief}). 
