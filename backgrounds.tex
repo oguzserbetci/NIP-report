@@ -9,14 +9,14 @@ It can therefore be assumed that this hardly describes peoples everyday risk beh
 % add example
 
 Two mathematicians, Von Neumann and Morgenstern, gave rise to a method more useful for describing individuals behaviour. They postulated in the 1950s that when facing a risky decision people will maximize not their expected value but their expected utility. \cite{Morgenstern53}
-The theory is therefore called expected utility theory.
+The theory is therefore called expected utility theory. \cite{Grant07}
 To every possible outcome one assigns a utility value as defined by a real valued utility function. The person does not need to know (and most likely doesn't know) about their utility function. They will implicitly assign utilities and then pick the option that maximizes their expected function value.
 
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.5\textwidth]{img/background/riskaversion}%
-\caption{Choice from a risk free gift of 30\$ or a lottery where by coin flip you win 10\$ or 50\$. The utility for the risk free choice (point A) is higher than the expected utility of the risky lottery (point B). 
+\caption{Choice from a risk free gift of 30\$ or a lottery where by coin flip you win 10\$ or 50\$. The utility for the risk free choice (point A) is higher than the expected utility of the risky lottery (point B). Figure taken from \cite{pic_risk}. 
 % b) The exponential utility function for different risk parameters $\lambda$. $\lambda < 0$ implies risk seeking, $\lambda = 0 $ risk neutral and $\lambda > 0 $ risk averse behaviour.
 }
 \label{fig:background:riskaversion}
@@ -26,7 +26,7 @@ To every possible outcome one assigns a utility value as defined by a real value
 To illustrate this we will look at the example illustrated in figure \ref{fig:background:riskaversion}:
 A person is asked to choose from a gift of 30\$ or to participate in a fair coin flip where she can win 10\$ or 50\$.
 It's easy to see that the expected outcome for both options is 30\$ but the coin flip is risky while the gift is risk free.
-The person in figure \ref{fig:background:riskaversion} acts in line with a concave risk function, i.e. the utility grows slower than the outcome. This also leads to a saturation effect where higher values are valued less and less which can often be observed in economics. %https://books.google.de/books?id=II4Nwm1uoCIC&pg=PA156&lpg=PA156&dq=utility+saturation+effect&source=bl&ots=HTlYRm8HtH&sig=jlqdH5UPyURI-SWXYlCJ5DzWXsY&hl=de&sa=X&ved=2ahUKEwjL-cHox8bcAhWPZlAKHVj3DHMQ6AEwAXoECAEQAQ#v=onepage&q=utility%20saturation%20effect&f=false
+The person in figure \ref{fig:background:riskaversion} acts in line with a concave risk function, i.e. in the limit the utility grows slower than the outcome. This also leads to a saturation effect where higher values are valued less and less which can often be observed in economics. %https://books.google.de/books?id=II4Nwm1uoCIC&pg=PA156&lpg=PA156&dq=utility+saturation+effect&source=bl&ots=HTlYRm8HtH&sig=jlqdH5UPyURI-SWXYlCJ5DzWXsY&hl=de&sa=X&ved=2ahUKEwjL-cHox8bcAhWPZlAKHVj3DHMQ6AEwAXoECAEQAQ#v=onepage&q=utility%20saturation%20effect&f=false
 The utility assigned to the possible outcome of 10\$ is around 40, the utility for 50\$ around 110 (both indicated by the dotted vertical lines). The expected utility of the coin flip (for different unfair coins) is simply the linear interpolation in between these two points. As we are using a fair coin the expected utility is right in the middle marked with the letter B at 75. In comparison the expected utility for the gift of 30\$ is at 100, indicated by letter A. The person in this example would therefore prefer the risk free choice of the gift over the risky coin flip.
 
 
@@ -43,7 +43,7 @@ A very common and easy to parametrize utility function is the exponential functi
 	\label{equ:exp}
 \end{cases}
 \end{flalign}
-It is often chosen for its mathematical convenience yet its applicability is highly questionable as it implies time independent decisions, i.e. past losses are not considered when making new decisions. The impact of the parameter $\lambda$ on the curvature of the function is shown in figure \ref{fig:background:exponential}.
+It is often chosen for its mathematical convenience yet its applicability is highly questionable as it implies time independent decisions, i.e. past losses are not considered when making new decisions. The impact of the parameter $\lambda$ on the curvature of the function is shown in figure \ref{fig:background:exponential}. 
 
 \begin{figure}[ht]
 \centering

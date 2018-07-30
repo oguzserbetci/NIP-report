@@ -19,7 +19,7 @@
 
 \usepackage[T1]{fontenc} 
 \usepackage[utf8]{inputenc}
-\pagenumbering{roman}
+%\pagenumbering{roman}
 
 % hyperref makes hyperlinks in the resulting PDF.
 % If your build breaks (sometimes temporarily if a hyperlink spans a page)
@@ -62,6 +62,7 @@ learning under uncertainty}
 % You can specify symbols, otherwise they are numbered in order.
 % Ideally, you should not use this facility. Affiliations will be numbered
 % in order of appearance and this is the preferred way.
+\icmlsetsymbol{equal}{*}
 
 \begin{icmlauthorlist}
 \icmlauthor{Emil Azadian}{equal,tu}
@@ -99,7 +100,7 @@ learning under uncertainty}
 \printAffiliationsAndNotice{\icmlEqualContribution} % otherwise use the standard text.
 
 \begin{abstract}
-\textit{Utility functions are often used to explain human risk behaviour under uncertainty. We present a class of reinforcement learning agents trained on different utility functions that are able to mimic risky choice under uncertainty. We use self-gathered experimental data capturing risk profiles of human participants and apply the agent's results to them. From that, we deduct that the widely used exponential utility function might not be able to explain all human risk profiles. In turn, we present two other utility functions that could be suited for mapping risk profiles.}
+\textit{Utility functions are often used to explain human risk behaviour under uncertainty. We present a class of reinforcement learning agents trained on different utility functions that are able to mimic risky choice under uncertainty. We use self-gathered experimental data capturing risk profiles of human participants and compare them to the agent's results. From that, we deduct that the widely used exponential utility function might not be able to explain all human risk profiles. In turn, we present two other utility functions that could be suited for mapping risk profiles.}
 \end{abstract}
 
 \section{Introduction}\label{sec:introduction}
@@ -120,7 +121,7 @@ The objective of this research is threefold:
 \input{methods}
 \section{Results}\label{sec:results}
 \input{results}
-\section{Discussion}\label{sec:discussion}
+\section{Discussion and Conclusion}\label{sec:discussion}
 \input{discussion}
 
 % Acknowledgements should only appear in the accepted version.
@@ -143,15 +144,19 @@ We also thank the WZB department for assisting us during the execution of the ex
 % DELETE THIS PART. DO NOT PLACE CONTENT AFTER THE REFERENCES!
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+\onecolumn
+
 \appendix
-\section{Behavioral data for all subjects}
+\section{Behavioral data for all subjects}\label{sec:appendix}
 All of the behavioral data fitted with linear kernel support vector machine is shown in~\autoref{fig:all_beh}.
 
-
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.99\linewidth]{img/all_peeps.pdf}
-    \caption{All behavioral data collected and fitted with a linear kernel SVM. Participant 2 and 7 have been removed because of invalid behavior (they always sold at very first time step, which by definition is never booming.)}
+    \includegraphics[width=.75\linewidth]{img/all_peeps.pdf}
+    \caption{All behavioral data collected and fitted with a linear kernel SVM. Participant 2 and 8 have been removed because of invalid behavior (they always sold at very first time step, which by definition is never booming.)}
     \label{fig:all_beh}
 \end{figure}
 
