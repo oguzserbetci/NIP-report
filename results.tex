@@ -1,24 +1,34 @@
+% * value functions 
+% 
+
+
 \subsection{Value functions in belief wealth space}\label{ssec:val-func}
 
 First, we look at value functions found by using different utility functions in~\autoref{fig:val-func}.
 As described in~\autoref{sec:methods} augmented state space encodes the wealth and the belief of the agent. 
-Additionally, in our case, time can be derived from wealth exactly by $\text{time} = \frac{\text{wealth}}{\text{observation\ cost}}$.
+Additionally, in our case, time can be derived from wealth exactly by using the simple formula:
 
-In the first row, value functions found by the risk-neutral utility (identity function) and an exponential utility show that the induced behaviour is independent of time and risk is only modeled by the belief threshold the agent decides to sell at.
+\begin{math}
+\text{time} = \frac{\text{wealth}}{\text{observation\ cost}}.
+\end{math}
+
+The resulting policy is the line that separate the blue (waiting) and the orange (selling) area. For example, in the very first plot, the agent always sell at 0.8 belief independent of time. We call this line the belief threshold.
+
+In the first row, we present value functions that are found by using the risk-neutral UF (identity function) and an exponential UF. Both functions result in agents selling above a certain belief threshold, regardless of the current wealth.
 % TODO do we need a policy plot to make this clear?
-Exponential utility sets this threshold with the $\lambda$ parameter, which is displayed above the plot.
-Positive $\lambda$ models risk-seeking behavior, which results in selling with less belief.
+Exponential UF sets this threshold with the $\lambda$ parameter, which is displayed above the plot.
+A negative $\lambda$ induces risk-averse behavior, which results in selling with higher belief than the risk-neutral agent.
 
-In the second row, we see that the sinh utility function is able to model time dependent behaviour, e.g. selling at a fixed time step. We have parametrized sinh by the scaling and shifting of its input:
+In the second row, we see that the $\text{sinh}$ utility function can model time-dependent behavior, e.g. selling at a fixed time step. We have parametrized $\text{sinh}$ by the scaling and shifting of its input:
 
 \begin{align*}
     U_\text{sinh}(v) := e^{v_1} - e^{-v_2} \text{, where\ } v_i = \text{scale_i}\cdot(v+\text{shift_i})
 \end{align*}
 
-First plot shows what we call a fixed time policy, where the agent sells at a specific wealth value.
-Second plot shows a similar policy but with less abrupt change in belief threshold.
+The first plot shows what we call a fixed time policy, where the belief threshold for selling abruptly decreases at a specific wealth value (i.e. time).
+The second plot shows a similar policy but with a smoother decrease in belief threshold over the wealth axis.
 
-Lastly, we present the dynamic utility function where $\lambda_i$ is selected from a logarithmically spaced sequence. The sequence range is displayed above each plot. Dynamic utility function was very hard to configure because most picks for lambdas make it unusable. Furthermore, it is very hard to do a grid search because it has so many free parameters (i.e. number of lambdas, or number of time steps.)
+Lastly, we present the dynamic utility function where $U$ depends on time by selecting $\lambda(t)$ from a logarithmically spaced sequence. The sequence range is displayed above each plot. Dynamic utility function is hard to parametrize because most picks for $\lambda(t)$ make the resulting function unstable. Furthermore, it is difficult to perform a grid search because it has many free parameters (possibly as many as time steps.) We only present these value functions for completeness. Dynamic utility function did not prove useful for our use-case.
 
 \begin{figure}[h]
     \centering
@@ -31,41 +41,40 @@ Lastly, we present the dynamic utility function where $\lambda_i$ is selected fr
 \subsection{From human behavior to utility functions}\label{ssec:human-behavior}
 
 In~\autoref{ssec:val-func}, we have presented how different utility functions result in different policies.
-However, our main goal is to derive a utility function and the corresponding risk parameters from behavioral data.
-In literature, this is called \keyword{inverse reinforcement learning} \cite{TODO}.
+Now we look at how we derived utility functions and the corresponding risk parameters from behavioral data.
+In literature, this is called \keyword{inverse reinforcement learning} \cite{Abbeel2010}.
 
-Inverse reinforcement learning is challenging, thus, we only try a naive approach, which can be summarized in three steps: 1) observe behaviour, 2) estimate policy, and 3) derive utility functions and risk parameters using a grid-search.
-This approach is plotted in~\autoref{fig:svm_vs_value}, and explained in following. 
+Inverse reinforcement learning is challenging. Thus, we only try a naive approach, which can be summarized in three steps: 1) observe behavior, 2) estimate policy, and 3) derive utility functions and risk parameters using a grid-search.
+The results are plotted in~\autoref{fig:svm_vs_value}, and explained in following. 
 First, we get behavioral data for a subject from the expert-setting of the experiment.
-For each time step (i.e. year) of each trial we have a data point with the action subject took, the belief shown to the user and the year. These are plotted in~\autoref{fig:svm_vs_value} with blue for wait action, and orange for sell action.
+For each time step (i.e. year) of each trial, we have a data point with the action subject took, the belief shown to the user and the year. These are plotted in~\autoref{fig:svm_vs_value} with blue for wait action, and orange for sell action.
 
-Second, we estimate the policy using a SVM \cite{TODO} with cross-validation. SVM tries to fit a decision boundary, which minimizes the wait actions above and sell actions below this boundary. Here we only take the last two actions in the account, i.e. one waiting and one selling actions (plotted with fuller circles), the rest of the actions are plotted in background.
+Second, we estimate the policy using a SVM \cite{svm} with cross-validation. SVM tries to fit a decision boundary, which minimizes the wait actions above and sell actions below this boundary. Here we only take the last two actions into account, i.e. one waiting and one selling actions (plotted with fuller circles), the rest of the actions are plotted in the background.
 
-The last step is to perform a grid search over utility functions and their parameters.
-Each utility function and its parameters results in a value function from which a policy can be derived.
+The last step is to perform a grid search over the utility functions and their parameters.
+Each utility function and its parameters results in a value function from which a policy is derived.
 The goal of the grid search is to find the policy that is closest to the SVM decision boundary.
+
+We found $\text{sinh}$ and Exponential UF to work the best. In behavioral data, we observed three kinds of behaviors: 1) people selling at a specific belief threshold, 2) people selling at a specific year, and 3) people lowering their threshold over years. We show an example for each of these behaviors in each row of~\autoref{fig:svm_vs_value}.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.99\linewidth]{img/fit}
-    \caption{Examples from three human behaviors distinctly observed, and reproduced with RL agents. Behaviours by row: 1) Constant belief threshold, modelled by exponential utility, 2) Fixed time threshold, modelled by sinh utility, 3) Mixed strategy, modelled by dynamic exponential utility. Left column shows empirical optimal split of data using cross validation and linear kernel support vector machines, right column shows optimal policy found via grid-search.}
+    \caption{Examples from three human behaviors distinctly observed and reproduced with RL agents. Behaviors by row: 1) Constant belief threshold, modeled by the risk-averse exponential utility function, 2) Fixed time threshold, modeled by sinh utility, 3) Mixed strategy, modeled by sinh exponential utility. The left column shows the empirical optimal split of data using linear kernel support vector machine (with cross-validation). The right column shows optimal policy that is closest to the SVM split, found via grid-search.}
     \label{fig:svm_vs_value}
 \end{figure}
 
 \subsection{Analysis of agents}
-After reproducing the human behavior with agents we can compare the performance of different agents, which is presented in~\autoref{fig:perf}.
-First, the average accumulated reward of each agent is shown in the left box plot, and the ratio of sells in good state is shown on the right bar plot.
+After reproducing the human behavior with agents, we can compare the performance of different agents.
+We sampled 10.000 episodes with each agent and present their performance in~\autoref{fig:perf}. The accumulated reward of each agent is presented with a box plot, and the ratio of sells in the good state is shown with a bar plot. 
+In the box plot, the green line shows the median of the accumulated reward, the box shows the Q1-Q3 quartile, and the circles show the outliers\footnote{Refer to matplotlib documentation and Wikipedia for an exact description of a box plot: \url{https://matplotlib.org/api/_as_gen/matplotlib.pyplot.boxplot.html}, \url{https://en.wikipedia.org/wiki/Quartile}}.
+In the bar plot, bars show the ratio of selling in the good state and the black lines show the variance.
 
-Average accumulated reward is depicted by the green line, and the varianve
-* Explain boxplot
-
-We observe couple of interesting things.
-First, the risk-averse agent has lower variance both on average reward, and ratio of selling in good state. However it has similar number of outliers in average reward to risk-neutral agent, which can be easily explained by the high selling threshold that results in longer waiting time.
-
-Second, even 
+The risk-averse agent has lower variance both on average reward, and the ratio of selling in the good state. However, it has a similar number of outliers in accumulated reward as the risk-neutral agent, which can be easily explained by the high selling threshold that results in a longer waiting time. The agents using sinh UF, on the other hand, have no outliers. And the mixed strategy has a similar median value with slightly larger quartile.
+This shows the benefit of risk modeling, even in such simple scenarios.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.99\linewidth]{img/performance.pdf}
-    \caption{Average reward and ratio of selling in the good state.}\label{fig:perf}
+    \caption{Accumulated reward and ratio of selling in the good state.}\label{fig:perf}
 \end{figure}

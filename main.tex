@@ -3,6 +3,7 @@
 \documentclass{article}
 
 % Recommended, but optional, packages for figures and better typesetting:
+\usepackage{amstext}
 \usepackage{microtype}
 \usepackage{graphicx}
 \usepackage{subfigure}
@@ -13,11 +14,11 @@
 \usepackage{graphicx,caption}
 
 \usepackage{subcaption}
-
 \definecolor {processblue}{cmyk}{0.96,0,0,0}
 
 \usepackage[T1]{fontenc} 
 \usepackage[utf8]{inputenc}
+\pagenumbering{roman}
 
 % hyperref makes hyperlinks in the resulting PDF.
 % If your build breaks (sometimes temporarily if a hyperlink spans a page)
@@ -36,13 +37,16 @@
 
 % The \icmltitle you define below is probably too long as a header.
 % Therefore, a short form for the running title is supplied here:
-\icmltitlerunning{Submission and Formatting Instructions for ICML 2018}
+\icmltitlerunning{Neural mechanisms of risk-sensitive choice and reinforcement
+learning under uncertainty}
+
+\newcommand{\keyword}[1]{\textit{#1}}
 
 \begin{document}
 
 \twocolumn[
-\icmltitle{Submission and Formatting Instructions for \\
-           International Conference on Machine Learning (ICML 2018)}
+\icmltitle{Neural mechanisms of risk-sensitive choice and reinforcement
+learning under uncertainty}
 
 % It is OKAY to include author information, even for blind
 % submissions: the style file will automatically remove it for you
@@ -59,22 +63,25 @@
 % in order of appearance and this is the preferred way.
 
 \begin{icmlauthorlist}
-\icmlauthor{Oğuz Şerbetci}{tu}
-\icmlauthor{Vlad-Catalin Frasineanu}{tu}
-\icmlauthor{Emil Azadian}{tu}
-\icmlauthor{Jan Botsch}{tu}
-\icmlauthor{Stephan Tietz}{tu}
+\icmlauthor{Emil Azadian}{equal,tu}
+\icmlauthor{Jan Botsch}{equal,tu}
+\icmlauthor{Vlad-Catalin Frasineanu}{equal,tu}
+\icmlauthor{Oğuz Şerbetci}{equal,tu}
+\icmlauthor{Stephan Tietz}{equal,tu}
 \end{icmlauthorlist}
 
-\icmlaffiliation{tu}{Institute of Software Engineering and Theoretical Computer Science}
+\icmlaffiliation{tu}{TU Berlin, Neural Information Processing Group}
 
-\icmlcorrespondingauthor{Cieua Vvvvv}{c.vvvvv@googol.com}
-\icmlcorrespondingauthor{Eee Pppp}{ep@eden.co.uk}
+\icmlcorrespondingauthor{Emil Azadian}{oguz.serbetci@campus.tu-berlin.de}
+\icmlcorrespondingauthor{Jan Botsch}{oguz.serbetci@campus.tu-berlin.de}
+\icmlcorrespondingauthor{Vlad-Catalin Frasineanu}{oguz.serbetci@campus.tu-berlin.de}
+\icmlcorrespondingauthor{Oğuz Şerbetci}{oguz.serbetci@campus.tu-berlin.de}
+\icmlcorrespondingauthor{Stephan Tietz}{stietz@campus.tu-berlin.de}
 
 % You may provide any keywords that you
 % find helpful for describing your paper; these are used to populate
 % the "keywords" metadata in the PDF but will not be shown in the document
-\icmlkeywords{Machine Learning, ICML}
+\icmlkeywords{Machine Learning, Reinforcement Learning, Risk Sensitivity}
 
 \vskip 0.3in
 ]
@@ -87,13 +94,11 @@
 % The \icmlEqualContribution command is standard text for equal contribution.
 % Remove it (just {}) if you do not need this facility.
 
-%\printAffiliationsAndNotice{}  % leave blank if no need to mention equal contribution
+% \printAffiliationsAndNotice{}  % leave blank if no need to mention equal contribution
 \printAffiliationsAndNotice{\icmlEqualContribution} % otherwise use the standard text.
 
 \begin{abstract}
-This document provides a basic paper template and submission guidelines.
-Abstracts must be a single paragraph, ideally between 4--6 sentences long.
-Gross violations will trigger corrections at the camera-ready phase.
+\textit{Utility functions are often used to explain human risk behaviour under uncertainty. We present a class of reinforcement learning agents trained on different utility functions that are able to mimic risky choice under uncertainty. We use self-gathered experimental data capturing risk profiles of human participants and apply the agent's results to them. From that, we deduct that the widely used exponential utility function might not be able to explain all human risk profiles. In turn, we present two other utility functions that could be suited for mapping risk profiles.}
 \end{abstract}
 
 \section{Introduction}\label{sec:introduction}
@@ -101,6 +106,7 @@ Gross violations will trigger corrections at the camera-ready phase.
 \section{Background}\label{sec:background}
 \input{backgrounds}
 \section{Methods}\label{sec:methods}
+\input{experiment}
 \input{methods}
 \section{Results}\label{sec:results}
 \input{results}
@@ -110,16 +116,8 @@ Gross violations will trigger corrections at the camera-ready phase.
 % Acknowledgements should only appear in the accepted version.
 \section*{Acknowledgements}
 
-\textbf{Do not} include acknowledgements in the initial version of
-the paper submitted for blind review.
-
-If a paper is accepted, the final camera-ready version can (and
-probably should) include acknowledgements. In this case, please
-place such acknowledgements in an unnumbered section at the
-end of the paper. Typically, this will include thanks to reviewers
-who gave useful comments, to colleagues who contributed to the ideas,
-and to funding agencies and corporate sponsors that provided financial
-support.
+This work was supported by the NI Department. The authors gratefully acknowledge the helpful discussions and technical assistance provided by Rong Guo, Vaios Laschos and Robert Seidel.
+We also thank the WZB department for assisting us during the execution of the experiment.
 
 
 % In the unusual situation where you want a paper to appear in the
@@ -136,24 +134,16 @@ support.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
-\section{Do \emph{not} have an appendix here}
+\section{Behavioral data for all subjects}
+All of the behavioral data fitted with linear kernel support vector machine is shown in~\autoref{fig:all_beh}.
 
-\textbf{\emph{Do not put content after the references.}}
-%
-Put anything that you might normally include after the references in a separate
-supplementary file.
 
-We recommend that you build supplementary material in a separate document.
-If you must create one PDF and cut it up, please be careful to use a tool that
-doesn't alter the margins, and that doesn't aggressively rewrite the PDF file.
-pdftk usually works fine. 
-
-\textbf{Please do not use Apple's preview to cut off supplementary material.} In
-previous years it has altered margins, and created headaches at the camera-ready
-stage. 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\begin{figure}
+    \centering
+    \includegraphics[width=0.99\linewidth]{img/all_peeps.pdf}
+    \caption{All behavioral data collected and fitted with a linear kernel SVM. Participant 2 and 7 have been removed because of invalid behavior (they always sold at very first time step, which by definition is never booming.)}
+    \label{fig:all_beh}
+\end{figure}
 
 \end{document}
 
