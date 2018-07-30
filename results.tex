@@ -16,18 +16,14 @@ In the second row, we see that the sinh utility function is able to model time d
 \end{align*}
 
 First plot shows what we call a fixed time policy, where the agent sells at a specific wealth value.
-Second plot shows 
+Second plot shows a similar policy but with less abrupt change in belief threshold.
 
-Lastly, we present the dynamic utility function where $\lambda_i$ is selected from a logarithmically spaced sequence. The sequence range is displayed above each plot.
-
-% TODO: use sinh with better parametrization
+Lastly, we present the dynamic utility function where $\lambda_i$ is selected from a logarithmically spaced sequence. The sequence range is displayed above each plot. Dynamic utility function was very hard to configure because most picks for lambdas make it unusable. Furthermore, it is very hard to do a grid search because it has so many free parameters (i.e. number of lambdas, or number of time steps.)
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.99\linewidth]{img/exp_policy.pdf}\\
-    \vspace{1cm}
     \includegraphics[width=0.99\linewidth]{img/sinh_policy.pdf}\\
-    \vspace{1cm}
     \includegraphics[width=0.99\linewidth]{img/dyn_policy.pdf}
     \caption{Value functions exhibiting different risk-behaviors; from top left: risk neutral agent (utility function is the identity function), risk-seeking agent with exponential utility function, two fixed time agents with different time thresholds, two agents with dynamic exponential utility function.}\label{fig:val-func}
 \end{figure}
@@ -43,12 +39,11 @@ This approach is plotted in~\autoref{fig:svm_vs_value}, and explained in followi
 First, we get behavioral data for a subject from the expert-setting of the experiment.
 For each time step (i.e. year) of each trial we have a data point with the action subject took, the belief shown to the user and the year. These are plotted in~\autoref{fig:svm_vs_value} with blue for wait action, and orange for sell action.
 
-Second, we estimate the policy using a SVM \cite{TODO} with cross-validation. SVM tries to fit a decision boundary, which minimizes the wait actions above and sell actions below this boundary.
-
+Second, we estimate the policy using a SVM \cite{TODO} with cross-validation. SVM tries to fit a decision boundary, which minimizes the wait actions above and sell actions below this boundary. Here we only take the last two actions in the account, i.e. one waiting and one selling actions (plotted with fuller circles), the rest of the actions are plotted in background.
 
 The last step is to perform a grid search over utility functions and their parameters.
 Each utility function and its parameters results in a value function from which a policy can be derived.
-The goal of the grid search is to find the closest policy that is closest to the SVM decision boundary.
+The goal of the grid search is to find the policy that is closest to the SVM decision boundary.
 
 \begin{figure}[h]
     \centering
@@ -58,13 +53,16 @@ The goal of the grid search is to find the closest policy that is closest to the
 \end{figure}
 
 \subsection{Analysis of agents}
-After reproducing the human behavior with agents we can compare their performance, which is presented in~\autoref{fig:perf}.
-First plot shows the average accumulated reward of each agent, and the second plot shows the ratio of sells in good state.
+After reproducing the human behavior with agents we can compare the performance of different agents, which is presented in~\autoref{fig:perf}.
+First, the average accumulated reward of each agent is shown in the left box plot, and the ratio of sells in good state is shown on the right bar plot.
+
+Average accumulated reward is depicted by the green line, and the varianve
+* Explain boxplot
+
 We observe couple of interesting things.
+First, the risk-averse agent has lower variance both on average reward, and ratio of selling in good state. However it has similar number of outliers in average reward to risk-neutral agent, which can be easily explained by the high selling threshold that results in longer waiting time.
 
-First, the risk-averse agent has a lower variance both on average reward, and ratio of selling in good state. However it has similar number of outliers in average reward to risk-neutral agent, which can be easily explained by the high selling threshold that results in long waiting time for the risk-averse agent.
-
-Second, % TODO
+Second, even 
 
 \begin{figure}[h]
     \centering

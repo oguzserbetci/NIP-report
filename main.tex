@@ -9,6 +9,13 @@
 \usepackage{tikz}
 \usepackage{booktabs} % for professional tables
 
+\usetikzlibrary {positioning}
+\usepackage{graphicx,caption}
+
+\usepackage{subcaption}
+
+\definecolor {processblue}{cmyk}{0.96,0,0,0}
+
 \usepackage[T1]{fontenc} 
 \usepackage[utf8]{inputenc}
 
@@ -53,10 +60,10 @@
 
 \begin{icmlauthorlist}
 \icmlauthor{Oğuz Şerbetci}{tu}
-\icmlauthor{Bauiu C.~Yyyy}{tu}
-\icmlauthor{Cieua Vvvvv}{tu}
-\icmlauthor{Iaesut Saoeu}{tu}
-\icmlauthor{Iaesut Saoeu}{tu}
+\icmlauthor{Vlad-Catalin Frasineanu}{tu}
+\icmlauthor{Emil Azadian}{tu}
+\icmlauthor{Jan Botsch}{tu}
+\icmlauthor{Stephan Tietz}{tu}
 \end{icmlauthorlist}
 
 \icmlaffiliation{tu}{Institute of Software Engineering and Theoretical Computer Science}
@@ -90,7 +97,9 @@ Gross violations will trigger corrections at the camera-ready phase.
 \end{abstract}
 
 \section{Introduction}\label{sec:introduction}
+\input{introduction.tex}
 \section{Background}\label{sec:background}
+\input{backgrounds}
 \section{Methods}\label{sec:methods}
 \input{methods}
 \section{Results}\label{sec:results}
