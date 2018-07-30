@@ -1,13 +1,22 @@
-
+% !TEX root = main.tex
 
 \subsection{Solving the risk sensitive POMDP}
-Marecki \cite{marecki} showed that RSPOMDPs can be solved for arbitrary utility functions using \keyword{reverse value iteration} in Belief Wealth Space.
-For this the original state space must be augmented two times:
 
+\normalsize
+Analyzing the behavior of participants was done by fitting policies based on various utility functions to the behavioral data..
+We proceeded in three steps, namely by,
+a) designing a reinforcement agent that can model arbitrary utility functions on the experiment, 
+b) picking a \enquote{suitable} subset of policies from the infinite space of utility functions for evaluation,
+c) finding a measure to compare the applicability of different policies
+>>>>>>> Stashed changes
+
+\textbf{a) Reinforcement agent design}\\
+Marecki \cite{marecki} showed that RSPOMDPs can be solved for arbitrary utility functions using \keyword{reverse value iteration} in Belief Wealth Space.
+For this, the original state space must be augmented two times as indicated in figure ~\autoref{fig:augmenation}
 \begin{figure}[H]
 \begin {center}
 \begin {tikzpicture}[-latex ,auto ,node distance =3cm and 3cm ,on grid,
-semithick , state/.style ={ circle ,fill=black!20, maximum width =2 cm}]
+semithick , state/.style ={ circle ,fill=black!20}]
 \node[state] (A) [align=center] {Observation\\Time\\Space};
 \node[state] (B) [right of=A,align=center] {Belief\\Time\\Space};
 \node[state] (C) [right of=B,align=center] {Belief\\Wealth\\Space};
@@ -16,13 +25,66 @@ semithick , state/.style ={ circle ,fill=black!20, maximum width =2 cm}]
 \path (B) edge [line width=1mm,align=center] node[below =0.25 cm] {} (C);
 \end{tikzpicture}
 \end{center}
+\caption{Two augmentations of the original state space are necessary to }\label{fig:augmenation}
 \end{figure}
 
-First augmentation is done by describing the probability of being in the good state with a function $\phi(b,o)$ ~\autoref{m:belief-update}:
+The first augmentation transforms the given observation-time-space into a belief-time-space. Knowledge of the state-transition probability $\alpha$ and the observation distributions are combined using bayesian inference. Iteratively applied, the resulting \textit{belief} describes at any time the probability of being in the good state (see ~\autoref{equ:belief}). 
+%The POMDP is thereby transformed into a MDP.
+\begin{flalign}
+   &b' = \phi(b,o) := \left( 1 + \frac{\alpha (1-q)}{1 - \alpha + \alpha q} \exp \left( \frac{1}{2} \Delta o \right)\right)^{-1}
+   \label{equ:belief}
+\end{flalign}
+where $ \Delta o = \left(\frac{o - \mu_2}{\sigma}\right)^2 - \left(\frac{o - \mu_1}{\sigma}\right)^2$.
 
-\begin{align}
-    b' = \phi(b,o) := ()
-\end{align}
+NOT READY from here
+The second augmentation transforms the belief-time-space into a belief-wealth-space. This is done by ...
+Solve the MDP with value iteration on an augmented state space. \cite{bauerle}
+\begin{flalign}
+    V^{n}_{U}(b,w) &= U(w)\tag{Initalization} \\
+    V^{n-1}_{U}(b,w) &= \max_{a \in A}(\sum_{o \in O}{P(o|b)V^{n}_{U}(b', w + r(a))}) \tag{Iteration}
+\end{flalign}
+where $b \in [0,1]$ was discretized into ABCD points and w is discrete by nature of the experiment. 
+NOT READY till here
 
-This augmentation transforms the POMDP into a MDP.
-Second augmentation ...
+\textbf{b) Choice of utility functions}\\
+The space of utility functions is infinite. However, the restricted setup of the experiment (the believe-wealth state space) allow three main categories of selling strategies (policies).
+Those are either policies depending on the believe, or on the wealth or on both. 
+(FOOTNOTE: we chose three strategies that are easy to model. not comprehensive. other strategies possible. but sufficient for evaluating our hypothesis.)
+
+Policy 1: Selling at a fixed believe\\
+A participant or agent sells the house at a believe higher than a fixed threshold $\in [0,1]$, independent of the current wealth. This behavior is a common model in economic and described by the exponential utility function 
+\begin{flalign}
+& U_{\exp}(w)  =  
+\begin{cases}
+	\left(1-exp(- \lambda w)\right) / \lambda & \lambda \neq 0\\
+	w & \lambda = 0
+\end{cases}
+\end{flalign}
+Here $\lambda > 0$ models risk-seeking behavior, $\lambda = 0$ risk-neutral behavior and $\lambda < 0$ risk-averse behavior.
+
+Policy 2: Selling at a wealth-dependent believe\\
+A participant or agent sells the house when the believe $b$ crosses a threshold $\in [0,1]$ with the threshold dependent on the current wealth. 
+This can be modeled using the dynamic exponential utility function
+\begin{flalign}
+& U_{\text{dyn}}(w)  =  
+\begin{cases}
+	\left(1-exp(- \lambda_w w)\right) / \lambda_w & \lambda_w \neq 0\\
+	w & \lambda_w = 0
+\end{cases}
+\end{flalign}
+where $\lambda_w$ is a function dependent on wealth.
+
+Policy 3: Selling at a fixed wealth
+A participant or agent sells the house at a fixed wealth, independent of the current believe. This can be modeled with a parametrized $\sinh$ utility function.
+\begin{flalign}
+	U_{\sinh}(w) := e^{w_1} - e^{-w_2}
+\end{flalign}
+where  $w_i = \text{scale}_i \cdot(w+\text{shift}_i)$. Scaling and shifting are parameters that are adjusted to model individual strategies. 
+
+
+\textbf{c) Measure for policy comparison}\\
+A measure is needed to decide which of the candidate policies fits the behavior of each participant best. We estimated each participants policy from the behavioral using a Support Vector Machine (SVM)  with cross-validation. The SVM separates the belief at the last waiting action and the belief at the selling action with a margin as large as possible, where we allow XXX percent as outliers. We then compare the estimated policy to the candidate policies to establish a best fit. We argue that this method is sufficient to evaluate the hypothesis of this paper.
+
+
+
+
