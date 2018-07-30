@@ -1,7 +1,3 @@
-% * value functions 
-% 
-
-
 \subsection{Value functions in belief wealth space}\label{ssec:val-func}
 
 First, we look at value functions found by using different utility functions in~\autoref{fig:val-func}.
@@ -13,6 +9,15 @@ Additionally, in our case, time can be related to wealth by the simple formula:
 \end{align*}
 
 The policy is the action with maximum return for each belief wealth pair, which is the line that separates the blue (waiting) and the orange (selling) area in~\autoref{fig:val-func}. For example, in the very first plot, the agent always sells at 0.8 belief for any wealth value. We call this line the belief threshold.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.99\linewidth]{img/exp_policy.pdf}\\
+    \includegraphics[width=0.99\linewidth]{img/sinh_policy.pdf}\\
+    \includegraphics[width=0.99\linewidth]{img/dyn_policy.pdf}
+    \caption{Value functions exhibiting different risk-behaviors; from top left: risk neutral agent (utility function is the identity function), risk-seeking agent with exponential utility function, two fixed time agents with different time thresholds, two agents with dynamic exponential utility function.}\label{fig:val-func}
+\end{figure}
+
 
 In the first row, we present value functions that are found by using the risk-neutral UF (identity function) and an exponential UF. Both functions result in agents simply selling above a certain belief threshold, regardless of the current wealth.
 % TODO do we need a policy plot to make this clear?
@@ -32,10 +37,9 @@ Lastly, in third row we present the dynamic utility function, where $U$ depends 
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.99\linewidth]{img/exp_policy.pdf}\\
-    \includegraphics[width=0.99\linewidth]{img/sinh_policy.pdf}\\
-    \includegraphics[width=0.99\linewidth]{img/dyn_policy.pdf}
-    \caption{Value functions exhibiting different risk-behaviors; from top left: risk neutral agent (utility function is the identity function), risk-seeking agent with exponential utility function, two fixed time agents with different time thresholds, two agents with dynamic exponential utility function.}\label{fig:val-func}
+    \includegraphics[width=0.99\linewidth]{img/fit}
+    \caption{Examples from three human behaviors distinctly observed and reproduced with RL agents. Behaviors by row: 1) Constant belief threshold, modeled by the risk-averse exponential utility function, 2) Fixed time threshold, modeled by sinh utility, 3) Mixed strategy, modeled by sinh exponential utility. The left column shows the empirical optimal split of data using linear kernel support vector machine (with cross-validation). The right column shows optimal policy that is closest to the SVM split, found via grid-search.}
+    \label{fig:svm_vs_value}
 \end{figure}
 
 \subsection{From human behavior to utility functions}\label{ssec:human-behavior}
@@ -57,12 +61,7 @@ The goal of the grid search is to find the policy that is closest to the SVM dec
 
 We found $\text{sinh}$ and Exponential UF to work the best. In behavioral data, we observed three kinds of behaviors: 1) people selling at a specific belief threshold, 2) people selling at a specific year, and 3) people lowering their threshold over years. We show an example for each of these behaviors in each row of~\autoref{fig:svm_vs_value}.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.99\linewidth]{img/fit}
-    \caption{Examples from three human behaviors distinctly observed and reproduced with RL agents. Behaviors by row: 1) Constant belief threshold, modeled by the risk-averse exponential utility function, 2) Fixed time threshold, modeled by sinh utility, 3) Mixed strategy, modeled by sinh exponential utility. The left column shows the empirical optimal split of data using linear kernel support vector machine (with cross-validation). The right column shows optimal policy that is closest to the SVM split, found via grid-search.}
-    \label{fig:svm_vs_value}
-\end{figure}
+
 
 \subsection{Analysis of agents}
 After reproducing the human behavior with agents, we can compare the performance of different agents.

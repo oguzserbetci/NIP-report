@@ -27,18 +27,18 @@ semithick , state/.style ={ circle ,fill=black!20}]
 \caption{Two augmentations of the original state space are necessary to solve the POMDP for different utility functions.}\label{fig:augmenation}
 \end{figure}
 
-The first augmentation transforms the experiments Observation Time Space into a Belief Time Space. Knowledge of the state-transition probability $\alpha$ (see figure ~\autoref{fig:states}) and the observation distributions are combined using Bayesian inference. Iteratively applied, the resulting \textit{belief} describes at any time the probability of being in the good state: 
+The first augmentation transforms the experiment's Observation Time Space into a Belief Time Space. Knowledge of the state-transition probability $\alpha$ (see figure ~\autoref{fig:states}) and the observation distributions are combined using Bayesian inference. Iteratively applied, the resulting \textit{belief} describes at any time the probability of being in the good state:
 %The POMDP is thereby transformed into a MDP.
 \begin{flalign}
    &b' = \phi(b,o) := \left( 1 + \frac{\alpha (1-q)}{1 - \alpha + \alpha q} \exp \left( \frac{1}{2} \Delta \right)\right)^{-1}
    \label{equ:belief}
 \end{flalign}
-with $ \Delta = \left(\frac{o - \mu_2}{\sigma}\right)^2 - \left(\frac{o - \mu_1}{\sigma}\right)^2$ and $\mathbb{N}{\mu_1,\sigma}$ and $\mathbb{N}{\mu_2,\sigma}$ the observation distributions for the recession and booming state, respectively. This also transforms the POMDP into a MDP.
+with $ \Delta = \left(\frac{o - \mu_2}{\sigma}\right)^2 - \left(\frac{o - \mu_1}{\sigma}\right)^2$ and $\mathcal{N}(\mu_1,\sigma)$ and $\mathcal{N}(\mu_2,\sigma)$ the observation distributions for the recession and booming state, respectively. This transforms the discrete state POMDP into a continuous MDP.
 
-The second augmentation transforms the Belief Time Space into a Belief Wealth Space. This is for our experiment trivial, as the wealth at any time is the accumulated waiting cost plus either the low or the high reward. Hence the possible wealth values are discrete in the interval 
+The second augmentation transforms the Belief Time Space into a Belief Wealth Space. In the case of our experiment this is trivial, as wealth at any time is just the accumulated waiting cost plus either the low or the high reward. Hence the possible wealth values are discrete in the interval 
 $\left[\max(\text{Waiting Cost}) + \text{Low Reward}, \text{High Reward}\right]$.
 
-On the augmented state space a reinforcement agent can be trained to navigate the experiment using the value iteration algorithm developed in \cite{marecki}:
+On the augmented state space a reinforcement agent can be trained to navigate the environment using the value iteration algorithm developed in \cite{marecki}:
 \begin{flalign*}
     &\text{Initialization:}\\
     &V^{n}_{U}(b,w) = U(w)\\
@@ -49,14 +49,14 @@ On the augmented state space a reinforcement agent can be trained to navigate th
 with observations $o$, belief $b$, wealth $w$ and wealth based utility function $U(w)$. The values are initialized with the utility function before the iteration converges them to a stable solution.
 
 \textbf{b) Choice of utility functions}\\
-There are infinite many utility functions  to choose from. However, the restricted setup of the experiment encourages three categories of selling policies. Policies depending on the believe, on the wealth or on both. For belief dependent policies we used common utility functions from economics, for strictly wealth based policies we derived one.
+There are infinite many utility functions to choose from. However, the restricted setup of the experiment encourages three categories of selling policies. Policies depending on the belief, on the wealth or on both. For belief dependent policies we used common utility functions from economics, for strictly wealth based policies we derived one.
 
 Policy 1: Selling at a fixed believe\\
 A participant or agent sells the house at a believe higher than a fixed threshold. The choice is independent of the current wealth. This behavior is commonly modeled in economics and can be described by the exponential utility function 
 \begin{flalign}
 & U_{\exp}(w)  =  
 \begin{cases}
-	\left(1-exp(- \lambda w)\right) / \lambda & \lambda \neq 0\\
+	\left(1-\exp(- \lambda w)\right) / \lambda & \lambda \neq 0\\
 	w & \lambda = 0
 	\label{equ:exp}
 \end{cases}
@@ -69,7 +69,7 @@ It can be modeled using the dynamic exponential utility function
 \begin{flalign}
 & U_{\text{dyn}}(w)  =  
 \begin{cases}
-	\left(1-exp(- \lambda_w w)\right) / \lambda_w & \lambda_w \neq 0\\
+	\left(1-\exp(- \lambda_w w)\right) / \lambda_w & \lambda_w \neq 0\\
 	w & \lambda_w = 0
 	\label{equ:dynexp}
 \end{cases}
@@ -77,7 +77,7 @@ It can be modeled using the dynamic exponential utility function
 with $\lambda_w$ a function dependent on wealth.
 
 Policy 3: Selling at a fixed wealth\\
-A participant or agent sells the house at a fixed wealth, independent of the current believe. This can be modeled with a parameterized $\sinh$ utility function.
+A participant or agent sells the house at a fixed wealth, independent of the current believe. This can be modeled with a parametrized $\sinh$ utility function.
 \begin{flalign}
 	&U_{\sinh}(w) := e^{w_1} - e^{-w_2}
 	\label{equ:sinh}

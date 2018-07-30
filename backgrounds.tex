@@ -8,7 +8,7 @@ This model has some shortfalls, i.e. it is easy to construct cases where empiric
 It can therefore be assumed that this hardly describes peoples everyday risk behaviour, instead a simpler and more intuitive way is required. \cite{Jaeger00}
 % add example
 
-A method more useful for describing individuals behaviour has given rise by the two mathematicans Von Neumann and Morgenstern in the 1950s. They postulate that when facing a risky decision people will maximize not their expected value but their expected utility. \cite{Morgenstern53}
+Two mathematicians, Von Neumann and Morgenstern, gave rise to a method more useful for describing individuals behaviour. They postulated in the 1950s that when facing a risky decision people will maximize not their expected value but their expected utility. \cite{Morgenstern53}
 The theory is therefore called expected utility theory.
 To every possible outcome one assigns a utility value as defined by a real valued utility function. The person does not need to know (and most likely doesn't know) about their utility function. They will implicitly assign utilities and then pick the option that maximizes their expected function value.
 
@@ -35,9 +35,14 @@ The utility assigned to the possible outcome of 10\$ is around 40, the utility f
 Different risk profiles can therefore be modelled by differently curved utility functions. Note that the curvature does not need to remain the same over all outcomes but can change, allowing to model risk seeking behaviour in some realm, e.g. for small amounts of money and risk averse behaviour in others, e.g. loss of life.
 
 A very common and easy to parametrize utility function is the exponential function defined as:
-\begin{equation}
-U(w) = \frac{1}{\lambda} (1-e^{-\lambda w} )
-\end{equation}
+\begin{flalign}
+& U(w)  =  
+\begin{cases}
+	\frac{1-\exp(- \lambda w)}{\lambda} & \lambda \neq 0\\
+	w & \lambda = 0
+	\label{equ:exp}
+\end{cases}
+\end{flalign}
 It is often chosen for its mathematical convenience yet its applicability is highly questionable as it implies time independent decisions, i.e. past losses are not considered when making new decisions. The impact of the parameter $\lambda$ on the curvature of the function is shown in figure \ref{fig:background:exponential}.
 
 \begin{figure}[ht]
@@ -76,7 +81,7 @@ To formally adopt the MDP framework we add two more items:
 \end{itemize}
 
 
-A cartoon connecting all the pieces and showing the interactions between agent and environment can be seen in figure \ref{fig:background:agentenv}. The system is in a cyclical flow alternating between environment and agent. The action performs an action that causes a state transition in the environment. The new state emits an observation and possibly a reward that are fed back to the agent. The agent uses this information to update it's belief state and then acts according to it's policy.
+A cartoon connecting all the pieces and showing the interactions between agent and environment can be seen in figure \ref{fig:background:agentenv}. The system is in a cyclical flow alternating between environment and agent. The agent performs an action that causes a state transition in the environment. The new state emits an observation and possibly a reward that are fed back to the agent. The agent uses this information to update its belief state and then acts according to its policy.
 
 \begin{figure}
   \centering
